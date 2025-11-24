@@ -1,0 +1,16 @@
+{
+  "name": "starter",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"cd server && node index.js\" \"cd client && npm run dev -- --host\""
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
