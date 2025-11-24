@@ -18,6 +18,11 @@ const io = new Server(server, {
 // 📖 THE PHONEBOOK: Maps "username" -> "socketId"
 const connectedUsers = {};
 
+// 🏠 ROOMS: Maps "roomId" -> { owner: "username", history: [] }
+const rooms = {
+  "general": { owner: "System", history: [] }
+};
+
 io.on("connection", (socket) => {
   console.log(`Socket Connected: ${socket.id}`);
 
@@ -35,36 +40,52 @@ io.on("connection", (socket) => {
     }
   });
 
-  // 2. SEND INVITE: Direct message logic
-  socket.on("send_invite", (data) => {
-    const { toUser, roomId } = data;
-    const targetSocketId = connectedUsers[toUser];
-
-    if (targetSocketId) {
-      // Send the invite ONLY to the specific person
-      io.to(targetSocketId).emit("receive_invite", {
-        fromUser: socket.username,
-        roomId: roomId
-      });
-    } else {
-        // Optional: You could emit an error back to sender here
-        console.log(`User ${toUser} is not online.`);
-    }
-  });
-
-  // 3. JOIN ROOM (For private sessions)
+  // 2. JOIN ROOM (Enhanced)
   socket.on("join_room", (roomId) => {
     socket.join(roomId);
     console.log(`${socket.username} joined room: ${roomId}`);
+
+    // Create room if it doesn't exist
+    if (!rooms[roomId]) {
+      rooms[roomId] = {
+        owner: socket.username,
+        history: []
+      };
+      console.log(`Room created: ${roomId} by ${socket.username}`);
+    }
+
+    // Send room info (owner)
+    socket.emit("room_info", {
+      roomId,
+      owner: rooms[roomId].owner
+    });
+
+    // Send drawing history
+    if (rooms[roomId].history.length > 0) {
+      socket.emit("load_history", rooms[roomId].history);
+    }
   });
 
-  // 4. DRAWING & CLEARING
+  // 3. DRAWING & CLEARING (With History)
   socket.on("draw_data", (data) => {
-    socket.to(data.roomId).emit("draw_data", data);
+    const { roomId } = data;
+    if (rooms[roomId]) {
+      rooms[roomId].history.push(data);
+    }
+    socket.to(roomId).emit("draw_data", data);
   });
 
   socket.on("clear_board", (roomId) => {
+    if (rooms[roomId]) {
+      rooms[roomId].history = [];
+    }
     io.to(roomId).emit("clear_board");
+  });
+
+  // 4. CHAT MESSAGES
+  socket.on("send_message", (data) => {
+    const { roomId, message, user } = data;
+    io.to(roomId).emit("receive_message", { user, message, timestamp: new Date().toISOString() });
   });
 
   // 5. DISCONNECT: Clean up the phonebook
