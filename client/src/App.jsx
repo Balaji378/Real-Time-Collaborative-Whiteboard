@@ -3,7 +3,7 @@ import io from "socket.io-client";
 // import { Pencil, Eraser, Trash2, User, Send, LogOut, Check, X } from "lucide-react";
 import "./App.css";
 
-const SERVER_URL = "http://localhost:3001"; 
+const SERVER_URL = "https://real-time-collaborative-whiteboard-2m59.onrender.com"; 
 
 const socket = io.connect(SERVER_URL);
 
