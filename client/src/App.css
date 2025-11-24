@@ -1,37 +1,78 @@
-body {
-  margin: 0;
-  overflow: hidden; /* Stop scrolling */
-  font-family: sans-serif;
+body { 
+  margin: 0; 
+  overflow: hidden; /* Prevents page scrolling on mobile */
+  font-family: sans-serif; 
 }
 
-.container {
-  position: relative;
-  width: 100vw;
+.container { 
+  position: relative; 
+  width: 100vw; 
+  height: 100vh; 
+  background-color: #fff; 
+}
+
+/* Login Screen */
+.login-screen {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f9;
 }
+.login-screen input { padding: 10px; font-size: 16px; margin: 10px; border: 1px solid #ccc; border-radius: 4px;}
+.login-screen button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px;}
 
+/* Toolbar */
 .toolbar {
   position: absolute;
-  top: 20px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   background: white;
-  padding: 10px 20px;
-  border-radius: 50px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   display: flex;
+  flex-wrap: wrap; /* Allows items to stack on small screens */
+  align-items: center;
   gap: 10px;
-  z-index: 10; /* Ensure it sits on top of canvas */
+  z-index: 10;
+  width: 90%;
+  max-width: 700px;
+  justify-content: center;
 }
 
-button {
-  border: 1px solid #ccc;
-  background: white;
-  padding: 5px 15px;
-  border-radius: 20px;
-  cursor: pointer;
+.user-tag { font-weight: bold; color: #555; margin-right: 5px; }
+
+.invite-box { display: flex; gap: 5px; }
+.invite-box input { width: 100px; padding: 5px; }
+
+.clear-btn { background: red; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+button { cursor: pointer; }
+
+/* Canvas */
+canvas {
+  display: block;
+  touch-action: none; /* ⚠️ CRITICAL: Tells browser not to zoom/scroll on canvas touches */
 }
 
-button:hover {
-  background: #f0f0f0;
+/* Notification Popup */
+.notification {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-left: 5px solid #2ecc71;
+  padding: 15px 20px;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
 }
+
+.notification button { margin-left: 10px; }
