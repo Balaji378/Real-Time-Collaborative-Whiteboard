@@ -4,7 +4,7 @@ import './App.css';
 
 // ⚠️ KEEP YOUR STACKBLITZ BACKEND URL HERE ⚠️
 const SERVER_URL =
-  'https://stackblitzstartersevoshp2o-nfgs--3001--cf284e50.local-corp.webcontainer.io';
+  'https://real-time-collaborative-whiteboard-2m59.onrender.com';
 
 const socket = io.connect(SERVER_URL);
 
