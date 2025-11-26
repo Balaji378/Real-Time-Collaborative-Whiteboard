@@ -68,6 +68,7 @@ body {
   transition: all 0.3s ease;
   box-sizing: border-box;
   background: #fdfdfd;
+  color: #2d3436; /* Fix: Force dark text */
 }
 
 .login-card input:focus {
@@ -289,6 +290,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none !important; /* Fix: Force remove default focus outline */
+}
+
+.tool-btn:focus,
+.tool-btn:focus-visible {
+  outline: none !important; /* Fix: Ensure no outline on focus */
+  border-color: transparent;
 }
 
 .tool-btn:hover {
@@ -412,6 +420,7 @@ canvas {
   align-self: flex-start;
   font-size: 0.95rem;
   line-height: 1.4;
+  color: #2d3436; /* Fix: Force dark text */
 }
 
 .message.my-message {
@@ -447,6 +456,7 @@ canvas {
   outline: none;
   transition: border-color 0.2s;
   background: #f8f9fa;
+  color: #2d3436; /* Fix: Force dark text */
 }
 
 .chat-input input:focus {
